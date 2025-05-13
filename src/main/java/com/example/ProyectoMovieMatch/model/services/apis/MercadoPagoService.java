@@ -24,7 +24,7 @@ public class MercadoPagoService {
         System.out.println("✅ Token de Mercado Pago configurado correctamente");
     }
 
-    public String crearPreferenciaDePrueba() {
+    public String crearPreferenciaDePrueba(String titulo, float monto) {
         try {
             //cada url nueva q genero de ngrok  
             //acordar tambein actualizar en links de mp
@@ -32,9 +32,9 @@ public class MercadoPagoService {
             Preference preference = new Preference();
 
             Item item = new Item();
-            item.setTitle("Suscripcion mensual")
+            item.setTitle(titulo)
                     .setQuantity(1)
-                    .setUnitPrice(9000f);
+                    .setUnitPrice(monto);
 
             preference.appendItem(item);
 
