@@ -12,7 +12,7 @@ public class UsuarioEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id; // unique
+    private int id;
 
     @Column
     private String nombre;
@@ -21,7 +21,7 @@ public class UsuarioEntity {
     private String apellido;
 
     @Column(name = "email", unique = true)
-    private String email; // unique
+    private String email;
 
     @Column
     private int edad;
@@ -31,11 +31,11 @@ public class UsuarioEntity {
 
     @Size(min = 6, max = 30)
     @Column(name = "contrasenia", nullable = false, length = 30)
-    private String contrasenia; // min 6 carac
+    private String contrasenia;
 
     @Size(min = 4)
     @Column(name = "username", unique = true)
-    private String username; // unique
+    private String username;
 
     @OneToOne
     @JoinColumn(name = "id_credencial")
@@ -44,4 +44,6 @@ public class UsuarioEntity {
     @OneToOne
     @JoinColumn(name = "id_suscripcion")
     private SuscripcionEntity suscripcion;
+
+
 }

@@ -30,6 +30,7 @@ public class UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
+    // preguntar si era asi
 //    public List<UsuarioEntity> usuariosMayores(int edad){
 //        return usuarioRepository.findByEdadGreaterThan(edad);
 //    }
