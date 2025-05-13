@@ -1,5 +1,6 @@
 package com.example.ProyectoMovieMatch.model.entities;
 
+import com.example.ProyectoMovieMatch.model.enums.E_Rango;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
