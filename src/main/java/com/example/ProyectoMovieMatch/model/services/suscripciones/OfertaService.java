@@ -1,7 +1,6 @@
-package com.example.ProyectoMovieMatch.model.services;
+package com.example.ProyectoMovieMatch.model.services.suscripciones;
 
 import com.example.ProyectoMovieMatch.model.entities.suscripcion.OfertaEntity;
-import com.example.ProyectoMovieMatch.model.entities.suscripcion.SuscripcionEntity;
 import com.example.ProyectoMovieMatch.model.repositories.OfertaRepository;
 import com.example.ProyectoMovieMatch.model.services.interfaz.IService;
 import org.springframework.beans.factory.annotation.Autowired;

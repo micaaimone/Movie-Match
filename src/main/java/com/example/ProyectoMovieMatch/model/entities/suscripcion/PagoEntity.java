@@ -12,7 +12,6 @@ public class PagoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private float monto;
     private String medio_pago;
     private LocalDateTime fecha_pago;
 

@@ -13,7 +13,5 @@ public interface IService <T>{
     public Optional<T> findById(Long id);
 
 
-    public T save(T dato);
-
     public void delete(T dato);
 }

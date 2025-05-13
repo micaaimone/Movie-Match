@@ -1,4 +1,4 @@
 package com.example.ProyectoMovieMatch.model.controllers;
 
-public class PagoController {
+public class OfertaController {
 }
