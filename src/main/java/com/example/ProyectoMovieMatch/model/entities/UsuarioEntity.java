@@ -14,6 +14,8 @@ import lombok.*;
 @Table(name = "usuarios")
 public class UsuarioEntity {
 
+    // agregar lista de likes
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

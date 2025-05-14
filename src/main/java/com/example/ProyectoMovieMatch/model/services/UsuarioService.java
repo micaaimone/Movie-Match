@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService {
@@ -41,5 +42,13 @@ public class UsuarioService {
     public UsuarioDTO getUsuarioDTO(Long id){
         UsuarioEntity usuarioEntity = usuarioRepository.findById(id).orElseThrow();
         return usuarioMapper.toDTO(usuarioEntity);
+    }
+
+    public List<UsuarioDTO> getAllDTO(){
+        List<UsuarioEntity> usuarios = usuarioRepository.findAll();
+
+        return usuarios.stream()
+                .map(usuarioMapper::toDTO)
+                .collect(Collectors.toList());
     }
 }

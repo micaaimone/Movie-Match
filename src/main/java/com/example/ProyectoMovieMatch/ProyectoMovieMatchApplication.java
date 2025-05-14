@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 @SpringBootApplication()
 public class ProyectoMovieMatchApplication {
 
+
 	public static void main(String[] args) {
 		SpringApplication.run(ProyectoMovieMatchApplication.class, args);
 		Dotenv dotenv = Dotenv.load();

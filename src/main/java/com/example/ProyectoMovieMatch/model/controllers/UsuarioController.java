@@ -22,24 +22,31 @@ public class UsuarioController {
         return usuarioService.findAll();
     }
 
+    // cambiar nombre
+    @GetMapping("/listar")
+    public List<UsuarioDTO> obtenerListaDTOs(){
+        return usuarioService.getAllDTO();
+    }
+
     @PostMapping("/registrar")
     public void agregarUsuario(@RequestParam UsuarioEntity u){
         usuarioService.save(u);
     }
 
     @GetMapping("/{id}")
-    public Optional<UsuarioEntity> obtenerUsuario(@RequestParam long id){
-        return usuarioService.findById(id);
+    public UsuarioDTO obtenerUsuario(@RequestParam long id){
+
+        return usuarioService.getUsuarioDTO(id);
     }
 
     // usar dto?
-    @GetMapping("/usuarios/{id}")
-    public EntityModel<UsuarioEntity> obtenerUsuarioPerfil(@PathVariable Long id){
-        UsuarioEntity usuario = usuarioService.findById(id)
-                .orElseThrow(()-> new RuntimeException("error"));
-
-
-    }
+//    @GetMapping("/usuarios/{id}")
+//    public EntityModel<UsuarioDTO> obtenerUsuarioPerfil(@PathVariable Long id){
+//        UsuarioDTO usuario = usuarioService.getUsuarioDTO(id);
+//                //.orElseThrow(()-> new RuntimeException("error"));
+//
+//
+//    }
 
 
 }
