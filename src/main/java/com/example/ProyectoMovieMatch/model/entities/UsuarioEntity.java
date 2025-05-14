@@ -3,9 +3,13 @@ package com.example.ProyectoMovieMatch.model.entities;
 import com.example.ProyectoMovieMatch.model.entities.suscripcion.SuscripcionEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "usuarios")
 public class UsuarioEntity {

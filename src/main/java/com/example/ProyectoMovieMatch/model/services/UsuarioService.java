@@ -1,6 +1,8 @@
 package com.example.ProyectoMovieMatch.model.services;
 
+import com.example.ProyectoMovieMatch.model.DTO.UsuarioDTO;
 import com.example.ProyectoMovieMatch.model.entities.UsuarioEntity;
+import com.example.ProyectoMovieMatch.model.mappers.UsuarioMapper;
 import com.example.ProyectoMovieMatch.model.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,8 @@ import java.util.Optional;
 
 @Service
 public class UsuarioService {
+
+    private UsuarioMapper usuarioMapper;
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -30,8 +34,12 @@ public class UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
-    // preguntar si era asi
-//    public List<UsuarioEntity> usuariosMayores(int edad){
-//        return usuarioRepository.findByEdadGreaterThan(edad);
-//    }
+    public List<UsuarioEntity> usuariosMayores(int edad){
+        return usuarioRepository.findByEdadGreaterThan(edad);
+    }
+
+    public UsuarioDTO getUsuarioDTO(Long id){
+        UsuarioEntity usuarioEntity = usuarioRepository.findById(id).orElseThrow();
+        return usuarioMapper.toDTO(usuarioEntity);
+    }
 }
