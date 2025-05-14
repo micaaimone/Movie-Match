@@ -25,7 +25,7 @@ public class PagoService implements IService <PagoEntity>{
         return pagoRepository.findById(id);
     }
 
-    @Override
+
     public PagoEntity save(PagoEntity dato) {
         return pagoRepository.save(dato);
     }

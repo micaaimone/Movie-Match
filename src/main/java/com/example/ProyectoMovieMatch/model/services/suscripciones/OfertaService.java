@@ -25,7 +25,7 @@ public class OfertaService implements IService<OfertaEntity> {
         return ofertaRepository.findById(id);
     }
 
-    @Override
+
     public OfertaEntity save(OfertaEntity dato) {
         return ofertaRepository.save(dato);
     }
@@ -35,6 +35,11 @@ public class OfertaService implements IService<OfertaEntity> {
         ofertaRepository.delete(dato);
     }
 
+    public float calcularPrecioFinal(float montoSinDesc){
 
+
+        float precioFinal = 0;
+        return precioFinal;
+    }
 
 }

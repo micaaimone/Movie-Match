@@ -6,6 +6,7 @@ import com.example.ProyectoMovieMatch.model.entities.suscripcion.SuscripcionEnti
 import com.example.ProyectoMovieMatch.model.entities.suscripcion.TipoSuscripcion;
 import com.example.ProyectoMovieMatch.model.repositories.PlanRepository;
 import com.example.ProyectoMovieMatch.model.repositories.SuscripcionRepository;
+import com.example.ProyectoMovieMatch.model.repositories.UsuarioRepository;
 import com.example.ProyectoMovieMatch.model.services.apis.MercadoPagoService;
 import com.example.ProyectoMovieMatch.model.services.interfaz.IService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,8 @@ public class SuscripcionService implements IService<SuscripcionEntity> {
     private MercadoPagoService mercadoPagoService;
     @Autowired
     private PlanRepository planRepository;
-    //@Autowired
-    //private UsuarioRepository usuarioRepository;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @Override
     public List<SuscripcionEntity> findAll() {
@@ -35,13 +36,21 @@ public class SuscripcionService implements IService<SuscripcionEntity> {
     public Optional<SuscripcionEntity> findById(Long id) {
         return suscripcionRepository.findById(id);
     }
-/*
+
     @Override
+    public void delete(SuscripcionEntity dato) {
+        suscripcionRepository.delete(dato);
+    }
+
+    //
     public String save(Long id_usuario, TipoSuscripcion dato) {
-        UsuarioEntity usuario = usuarioRepository.findById(id_usuario);
+
+        UsuarioEntity usuario = usuarioRepository.findById(id_usuario)
+                .orElseThrow(() -> new RuntimeException("No se encontró el usuario"));
+
         //buscamos el plan
         PlanSuscripcionEntity plan = planRepository.findByTipo(dato)
-                .orElseThrow(()-> new RuntimeException("no se enocntro el plan"));
+                .orElseThrow(() -> new RuntimeException("no se enocntro el plan"));
 
         //creamos la sub
         SuscripcionEntity suscripcion = new SuscripcionEntity();
@@ -49,7 +58,7 @@ public class SuscripcionService implements IService<SuscripcionEntity> {
         suscripcion.setEstado(false);
         suscripcion.setMonto(plan.getPrecio());
         suscripcion.setPlan(plan);
-        //suscripcion.setUsuario(usuario);
+        suscripcion.setUsuario(usuario);
         suscripcion.setFecha_inicio(LocalDate.now());
         suscripcion.setFecha_fin(calcularFechaFin(dato));
 
@@ -58,17 +67,15 @@ public class SuscripcionService implements IService<SuscripcionEntity> {
 
 
         return mercadoPagoService.crearPreferenciaDePrueba(dato.name(), suscripcion.getMonto());
-    }*/
-
-    private LocalDate calcularFechaFin(TipoSuscripcion tipo) {
-        return tipo == TipoSuscripcion.MENSUAL
-                ? LocalDate.now().plusMonths(1)
-                : LocalDate.now().plusYears(1);
     }
 
-    @Override
-    public void delete(SuscripcionEntity dato) {
-        suscripcionRepository.delete(dato);
+    //indica cuando se terminara la sub segun el tipo
+    private LocalDate calcularFechaFin(TipoSuscripcion tipo) {
+        return switch (tipo) {
+            case MENSUAL -> LocalDate.now().plusMonths(1);
+            case SEMESTRAl -> LocalDate.now().plusMonths(6);
+            case ANUAL -> LocalDate.now().plusYears(1);
+        };
     }
 
     //verifica si la fecha de hoy es menor que la de vencimiento
