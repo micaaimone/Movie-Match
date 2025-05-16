@@ -1,4 +1,4 @@
-package com.example.ProyectoMovieMatch.model.controllers;
+package com.example.ProyectoMovieMatch.model.controllers.subs;
 
 import com.example.ProyectoMovieMatch.model.services.apis.MercadoPagoService;
 import org.springframework.beans.factory.annotation.Autowired;

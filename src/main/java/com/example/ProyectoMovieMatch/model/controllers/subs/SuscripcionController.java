@@ -1,5 +1,6 @@
-package com.example.ProyectoMovieMatch.model.controllers;
+package com.example.ProyectoMovieMatch.model.controllers.subs;
 
+import com.example.ProyectoMovieMatch.model.entities.UsuarioEntity;
 import com.example.ProyectoMovieMatch.model.entities.suscripcion.SuscripcionEntity;
 import com.example.ProyectoMovieMatch.model.entities.suscripcion.TipoSuscripcion;
 import com.example.ProyectoMovieMatch.model.services.suscripciones.SuscripcionService;
@@ -41,8 +42,8 @@ public class SuscripcionController {
 
     //metods de usuario
     @PostMapping("/crear")
-    public void crear(TipoSuscripcion tipo){
-
+    public void crear(UsuarioEntity usuario, TipoSuscripcion tipo){
+        suscripcionService.save(usuario.getId(), tipo);
     }
 
 

@@ -12,7 +12,7 @@ public class UsuarioEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id; // unique
+    private Long id; // unique
 
     @Column
     private String nombre;

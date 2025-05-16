@@ -15,4 +15,8 @@ public class PlanSuscripcionEntity {
     private TipoSuscripcion tipo;
 
     private float precio;
+
+    @OneToOne
+    @JoinColumn(name = "id_oferta", nullable = true)
+    private OfertaEntity oferta;
 }

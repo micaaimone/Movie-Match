@@ -18,4 +18,8 @@ public class OfertaEntity {
     private float descuento;
     private LocalDate fecha_inicio;
     private LocalDate fecha_fin;
+
+    @OneToOne
+    @JoinColumn(name = "id_plan", nullable = true)
+    private PlanSuscripcionEntity plan;
 }

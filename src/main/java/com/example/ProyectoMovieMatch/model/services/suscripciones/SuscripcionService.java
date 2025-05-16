@@ -1,9 +1,11 @@
 package com.example.ProyectoMovieMatch.model.services.suscripciones;
 
 import com.example.ProyectoMovieMatch.model.entities.UsuarioEntity;
+import com.example.ProyectoMovieMatch.model.entities.suscripcion.OfertaEntity;
 import com.example.ProyectoMovieMatch.model.entities.suscripcion.PlanSuscripcionEntity;
 import com.example.ProyectoMovieMatch.model.entities.suscripcion.SuscripcionEntity;
 import com.example.ProyectoMovieMatch.model.entities.suscripcion.TipoSuscripcion;
+import com.example.ProyectoMovieMatch.model.repositories.OfertaRepository;
 import com.example.ProyectoMovieMatch.model.repositories.PlanRepository;
 import com.example.ProyectoMovieMatch.model.repositories.SuscripcionRepository;
 import com.example.ProyectoMovieMatch.model.repositories.UsuarioRepository;
@@ -18,14 +20,22 @@ import java.util.Optional;
 
 @Service
 public class SuscripcionService implements IService<SuscripcionEntity> {
-    @Autowired
-    private SuscripcionRepository suscripcionRepository;
-    @Autowired
-    private MercadoPagoService mercadoPagoService;
-    @Autowired
-    private PlanRepository planRepository;
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    private final SuscripcionRepository suscripcionRepository;
+    private final MercadoPagoService mercadoPagoService;
+    private final PlanRepository planRepository;
+    private final OfertaRepository ofertaRepository;
+    private final UsuarioRepository usuarioRepository;
+    private final PlanService planService;
+
+    public SuscripcionService(SuscripcionRepository suscripcionRepository, MercadoPagoService mercadoPagoService, PlanRepository planRepository, OfertaRepository ofertaRepository, UsuarioRepository usuarioRepository, PlanService planService) {
+        this.suscripcionRepository = suscripcionRepository;
+        this.mercadoPagoService = mercadoPagoService;
+        this.planRepository = planRepository;
+        this.ofertaRepository = ofertaRepository;
+        this.usuarioRepository = usuarioRepository;
+        this.planService = planService;
+    }
+
 
     @Override
     public List<SuscripcionEntity> findAll() {
@@ -52,11 +62,21 @@ public class SuscripcionService implements IService<SuscripcionEntity> {
         PlanSuscripcionEntity plan = planRepository.findByTipo(dato)
                 .orElseThrow(() -> new RuntimeException("no se enocntro el plan"));
 
+        //buscamos oferta activa
+        OfertaEntity oferta = ofertaRepository.buscarOferta(plan.getId(), LocalDate.now());
+
+
         //creamos la sub
         SuscripcionEntity suscripcion = new SuscripcionEntity();
         //todaia no esta activada hasta que se concrete el pago
         suscripcion.setEstado(false);
-        suscripcion.setMonto(plan.getPrecio());
+
+        if(oferta != null){
+            suscripcion.setMonto(planService.precioFinal(plan.getPrecio(), oferta.getDescuento()));
+        }else{
+            suscripcion.setMonto(plan.getPrecio());
+        }
+
         suscripcion.setPlan(plan);
         suscripcion.setUsuario(usuario);
         suscripcion.setFecha_inicio(LocalDate.now());
@@ -101,5 +121,10 @@ public class SuscripcionService implements IService<SuscripcionEntity> {
     //listar activos
     public List<SuscripcionEntity> findActivos(){
         return suscripcionRepository.findActivos();
+    }
+
+    //activar la sub cuando se concrete el pago
+    public void activarSuscripion(Long id){
+        suscripcionRepository.activatSub(id);
     }
 }

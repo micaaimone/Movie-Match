@@ -35,11 +35,6 @@ public class OfertaService implements IService<OfertaEntity> {
         ofertaRepository.delete(dato);
     }
 
-    public float calcularPrecioFinal(float montoSinDesc){
 
-
-        float precioFinal = 0;
-        return precioFinal;
-    }
 
 }

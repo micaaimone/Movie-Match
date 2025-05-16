@@ -24,10 +24,7 @@ public class SuscripcionEntity {
     @ManyToOne
     private PlanSuscripcionEntity plan;
 
-    //pongo manytoOne porque por ej la sub de un año puede tener descuento pero la mensual no
-    @ManyToOne
-    @JoinColumn(name = "id_oferta", nullable = true)
-    private OfertaEntity oferta;  // Puede ser null si no hay oferta
+
 
 
 

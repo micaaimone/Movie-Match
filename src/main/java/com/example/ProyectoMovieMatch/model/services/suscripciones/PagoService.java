@@ -34,4 +34,5 @@ public class PagoService implements IService <PagoEntity>{
     public void delete(PagoEntity dato) {
         pagoRepository.delete(dato);
     }
+
 }
