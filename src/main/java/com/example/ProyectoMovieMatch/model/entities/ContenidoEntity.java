@@ -2,18 +2,24 @@ package com.example.ProyectoMovieMatch.model.entities;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Entity
-@Table(name = "contenidos")
-public class ContenidoEntity {
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class ContenidoEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id_contenido;
 
     @JsonProperty("Title")
@@ -33,9 +39,6 @@ public class ContenidoEntity {
 
     @JsonProperty("Genre")
     private String genero;
-
-    @JsonProperty("Director")
-    private String director;
 
     @JsonProperty("Writer")
     private String guionista;
@@ -62,9 +65,6 @@ public class ContenidoEntity {
     @JsonProperty("Ratings")
     private List<RatingEntity> ratings;
 
-    @JsonProperty("Metascore")
-    private String metascore;
-
     @JsonProperty("imdbRating")
     private String imdbRating;
 
@@ -72,24 +72,20 @@ public class ContenidoEntity {
     private String imdbVotos;
 
     @JsonProperty("imdbID")
+    @Column(unique = true)
     private String imdbId;
 
     @JsonProperty("Type")
     private String tipo;
 
-    @JsonProperty("DVD")
-    private String dvd;
-
-    @JsonProperty("BoxOffice")
-    private String recaudacion;
-
-    @JsonProperty("Production")
-    private String productora;
-
-    @JsonProperty("Website")
-    private String sitioWeb;
-
     @JsonProperty("Response")
     private String respuesta;
 
+    public String getImdbId() {
+        return imdbId;
+    }
+
+    public List<RatingEntity> getRatings() {
+        return ratings;
+    }
 }
