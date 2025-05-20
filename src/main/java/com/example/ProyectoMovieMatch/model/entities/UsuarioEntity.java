@@ -17,7 +17,6 @@ import java.util.Set;
 @Table(name = "usuarios")
 public class UsuarioEntity {
 
-    // agregar lista de likes
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,9 +57,9 @@ public class UsuarioEntity {
     @JoinTable(
             name = "likes",
             joinColumns = @JoinColumn(name = "id_usuario"),
-            inverseJoinColumns = @JoinColumn(name = "id_pelicula")
+            inverseJoinColumns = @JoinColumn(name = "id_contenido")
     )
-    private Set<PeliculaEntity> likes;
+    private Set<ContenidoEntity> likes;
 
 
 }
