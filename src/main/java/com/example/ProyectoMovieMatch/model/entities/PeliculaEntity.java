@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -32,5 +33,8 @@ public class PeliculaEntity extends ContenidoEntity{
 
     @JsonProperty("Website")
     private String sitioWeb;
+
+    @ManyToMany(mappedBy = "likes", fetch = FetchType.LAZY)
+    private Set<UsuarioEntity> likedBy;
 
 }
