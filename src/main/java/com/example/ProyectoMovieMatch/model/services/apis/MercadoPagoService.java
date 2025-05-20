@@ -6,18 +6,17 @@ import com.mercadopago.resources.Preference;
 import com.mercadopago.resources.datastructures.preference.*;
 import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.annotation.PostConstruct;
-import lombok.Value;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MercadoPagoService {
+
+    @Value("${MERCADOPAGO_ACCESS_TOKEN}")
     private String accessToken;
 
     @PostConstruct
     public void init() throws MPConfException {
-
-        Dotenv dotenv = Dotenv.load();
-        accessToken = dotenv.get("MERCADOPAGO_ACCESS_TOKEN");
 
         MercadoPago.SDK.setAccessToken(accessToken);
 

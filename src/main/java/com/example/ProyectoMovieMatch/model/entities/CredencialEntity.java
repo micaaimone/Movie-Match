@@ -4,9 +4,13 @@ import com.example.ProyectoMovieMatch.model.enums.E_Rango;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@RequiredArgsConstructor
+@ToString
+@NoArgsConstructor
 @Entity
 public class CredencialEntity {
     @Id

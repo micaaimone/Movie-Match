@@ -1,18 +1,28 @@
 package com.example.ProyectoMovieMatch.model.services;
 
+import com.example.ProyectoMovieMatch.model.DTO.UsuarioDTO;
+import com.example.ProyectoMovieMatch.model.entities.ContenidoEntity;
+import com.example.ProyectoMovieMatch.model.entities.PeliculaEntity;
 import com.example.ProyectoMovieMatch.model.entities.UsuarioEntity;
+import com.example.ProyectoMovieMatch.model.mappers.UsuarioMapper;
+import com.example.ProyectoMovieMatch.model.repositories.PeliculaRepository;
 import com.example.ProyectoMovieMatch.model.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService {
 
+    private UsuarioMapper usuarioMapper;
+
     @Autowired
     private UsuarioRepository usuarioRepository;
+    private ContenidoService contenidoService;
 
     public List<UsuarioEntity> findAll(){
         return usuarioRepository.findAll();
@@ -26,11 +36,55 @@ public class UsuarioService {
         return usuarioRepository.findById(id);
     }
 
+    public UsuarioEntity findByUsername(String username){return usuarioRepository.findByUsername(username);}
+
     public void deleteById(long id){
         usuarioRepository.deleteById(id);
     }
 
-//    public List<UsuarioEntity> usuariosMayores(int edad){
-//        return usuarioRepository.findByEdadGreaterThan(edad);
-//    }
+    public List<UsuarioEntity> usuariosMayores(int edad){
+        return usuarioRepository.findByEdadGreaterThan(edad);
+    }
+
+    public UsuarioDTO getUsuarioDTO(Long id){
+        UsuarioEntity usuarioEntity = usuarioRepository.findById(id).orElseThrow();
+        return usuarioMapper.toDTO(usuarioEntity);
+    }
+
+    public List<UsuarioDTO> getAllDTO(){
+        List<UsuarioEntity> usuarios = usuarioRepository.findAll();
+
+        return usuarios.stream()
+                .map(usuarioMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    // agregar findById, por eso está comentado
+    public void darLike(Long idUsuario, Long idContenido){
+        UsuarioEntity usuarioEntity = usuarioRepository.findById(idUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        ContenidoEntity contenidoEntity = contenidoService.findById(idContenido)
+                .orElseThrow(()->new RuntimeException("Contenido no encontrado"));
+
+        usuarioEntity.getLikes().add(contenidoEntity);
+        usuarioRepository.save(usuarioEntity);
+    }
+
+    public void quitarLike(Long idUsuario, Long idContenido){
+        UsuarioEntity usuarioEntity = usuarioRepository.findById(idUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        // agregar find by id
+        ContenidoEntity contenidoEntity = contenidoService.findById(idContenido)
+                .orElseThrow(()->new RuntimeException("Contenido no encontrado"));
+
+        usuarioEntity.getLikes().remove(contenidoEntity);
+        usuarioRepository.save(usuarioEntity);
+    }
+
+    public Set<ContenidoEntity> listarLikes(Long id){
+        UsuarioEntity usuarioEntity = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        return usuarioEntity.getLikes();
+    }
+
 }
