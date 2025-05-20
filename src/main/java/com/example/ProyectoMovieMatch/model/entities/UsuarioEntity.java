@@ -2,6 +2,8 @@ package com.example.ProyectoMovieMatch.model.entities;
 
 import com.example.ProyectoMovieMatch.model.entities.suscripcion.SuscripcionEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -23,12 +25,14 @@ public class UsuarioEntity {
     private Long id;
 
     @Column
+    @NotBlank
     private String nombre;
 
     @Column
     private String apellido;
 
     @Column(name = "email", unique = true)
+    @Email
     private String email;
 
     @Column

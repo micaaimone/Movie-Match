@@ -4,6 +4,8 @@ import com.example.ProyectoMovieMatch.model.DTO.UsuarioDTO;
 import com.example.ProyectoMovieMatch.model.entities.ContenidoEntity;
 import com.example.ProyectoMovieMatch.model.entities.PeliculaEntity;
 import com.example.ProyectoMovieMatch.model.entities.UsuarioEntity;
+import com.example.ProyectoMovieMatch.model.exceptions.ListaVaciaException;
+import com.example.ProyectoMovieMatch.model.exceptions.UsuarioNoEncontradoException;
 import com.example.ProyectoMovieMatch.model.mappers.UsuarioMapper;
 import com.example.ProyectoMovieMatch.model.repositories.PeliculaRepository;
 import com.example.ProyectoMovieMatch.model.repositories.UsuarioRepository;
@@ -20,11 +22,16 @@ public class UsuarioService {
 
     private UsuarioMapper usuarioMapper;
 
+    // hacer validaciones y exceptions acà, meter el codigo pesado
+
     @Autowired
     private UsuarioRepository usuarioRepository;
     private ContenidoService contenidoService;
 
-    public List<UsuarioEntity> findAll(){
+    public List<UsuarioEntity> findAll() throws ListaVaciaException {
+        if(usuarioRepository.findAll().isEmpty()){
+            throw new ListaVaciaException("No hay usuarios");
+        }
         return usuarioRepository.findAll();
     }
 
@@ -32,15 +39,24 @@ public class UsuarioService {
         usuarioRepository.save(u);
     }
 
-    public Optional<UsuarioEntity> findById(long id){
+    public Optional<UsuarioEntity> findById(Long id) throws UsuarioNoEncontradoException {
+        if(usuarioRepository.findById(id).isEmpty()){
+            throw new UsuarioNoEncontradoException("El usuario no existe");
+        }
         return usuarioRepository.findById(id);
     }
 
-    public UsuarioEntity findByUsername(String username){return usuarioRepository.findByUsername(username);}
+    public Optional<UsuarioEntity> findByUsername(String username){return usuarioRepository.findByUsername(username);}
 
-    public void deleteById(long id){
+    public void deleteById(Long id){
         usuarioRepository.deleteById(id);
     }
+
+    // modificar usuario
+//    public UsuarioDTO modifyUsername(Long id, String username){
+//        return getUsuarioDTO(id).setUsername(username);
+//
+//    }
 
     public List<UsuarioEntity> usuariosMayores(int edad){
         return usuarioRepository.findByEdadGreaterThan(edad);
@@ -59,7 +75,7 @@ public class UsuarioService {
                 .collect(Collectors.toList());
     }
 
-    // agregar findById, por eso está comentado
+
     public void darLike(Long idUsuario, Long idContenido){
         UsuarioEntity usuarioEntity = usuarioRepository.findById(idUsuario)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));

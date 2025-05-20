@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -88,4 +89,9 @@ public abstract class ContenidoEntity {
     public List<RatingEntity> getRatings() {
         return ratings;
     }
+
+    // si tiene herencia està bien hacer una tabla intermedia y q vaya en contenido?
+    // puede funcionar igual
+    @ManyToMany(mappedBy = "likes", fetch = FetchType.LAZY)
+    private Set<UsuarioEntity> likedBy;
 }

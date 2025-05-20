@@ -19,14 +19,14 @@ public class UsuarioController {
 
     private UsuarioService usuarioService;
 
-    // manejar excepciones y usar dtos
+    // agregar todos los metodos que tengan relacion con usuario acà, no importa los cargos
 
     @GetMapping("/listar")
     public List<UsuarioEntity> obtenerListaUsuarios(){
         return usuarioService.findAll();
     }
 
-    // cambiar nombre
+    // cambiar nombre -----
     @GetMapping("/listar")
     public List<UsuarioDTO> obtenerListaDTOs(){
         return usuarioService.getAllDTO();
@@ -37,13 +37,17 @@ public class UsuarioController {
         usuarioService.save(u);
     }
 
+    @DeleteMapping("/eliminar")
+    public void eliminarUsuario(@RequestParam UsuarioEntity u){
+        usuarioService.deleteById(u.getId());
+    }
+
     @GetMapping("/{id}")
     public UsuarioDTO obtenerUsuario(@RequestParam long id){
 
         return usuarioService.getUsuarioDTO(id);
     }
 
-    // despues cambiarlo cuando esté mejor desarrollado lo de los cargos
     @PostMapping("/{idUsuario}/like/{idContenido}")
     public ResponseEntity<String> darLike(@PathVariable long idUsuario, @PathVariable long idContenido){
         usuarioService.darLike(idUsuario,idContenido);
@@ -64,7 +68,7 @@ public class UsuarioController {
 
 
     // usar dto?
-//    @GetMapping("/usuarios/{id}")
+//    @GetMapping("/{id}")
 //    public EntityModel<UsuarioDTO> obtenerUsuarioPerfil(@PathVariable Long id){
 //        UsuarioDTO usuario = usuarioService.getUsuarioDTO(id);
 //                //.orElseThrow(()-> new RuntimeException("error"));

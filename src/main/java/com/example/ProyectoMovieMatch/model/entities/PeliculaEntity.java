@@ -34,7 +34,5 @@ public class PeliculaEntity extends ContenidoEntity{
     @JsonProperty("Website")
     private String sitioWeb;
 
-    @ManyToMany(mappedBy = "likes", fetch = FetchType.LAZY)
-    private Set<UsuarioEntity> likedBy;
 
 }
